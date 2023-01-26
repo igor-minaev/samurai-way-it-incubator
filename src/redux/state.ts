@@ -3,7 +3,7 @@ export type PostType = {
     message: string
     likeCounts: number
 }
-export type DialogItemType = {
+export type DialogType = {
     id: number
     name: string
 }
@@ -16,15 +16,17 @@ export type ProfilePageType = {
     posts: Array<PostType>
 }
 export type DialogsPageType = {
-    dialogs: Array<DialogItemType>
+    dialogs: Array<DialogType>
     messages: Array<MessageType>
 }
-export type StateType = {
+export type SidebarType = {}
+export type RootStateType = {
     profilePage: ProfilePageType
     dialogsPage: DialogsPageType
+    sidebar: SidebarType
 }
 
-export const state: StateType = {
+export const state: RootStateType = {
     profilePage: {
         posts: [
             {id: 1, message: 'Hi, how are you?', likeCounts: 15},
@@ -45,5 +47,6 @@ export const state: StateType = {
             {id: 2, message: 'How is your it-kamasutra?'},
             {id: 3, message: 'Yo'}
         ]
-    }
+    },
+    sidebar: {}
 }

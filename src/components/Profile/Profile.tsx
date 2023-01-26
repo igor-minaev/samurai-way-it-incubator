@@ -1,17 +1,18 @@
-import React from 'react';
+import React, {FC} from 'react';
 import s from './Profile.module.css'
 import {MyPosts} from "./MyPosts/MyPosts";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
+import {PostType} from "./MyPosts/Post/Post";
 
-export const Profile = () => {
-    const posts = [
-        {id: 1, message: 'Hi, how are you?', likeCounts: 15},
-        {id: 2, message: "It's my first post", likeCounts: 20},
-    ]
+type ProfilePropsType = {
+    posts: Array<PostType>
+}
+
+export const Profile: FC<ProfilePropsType> = (props) => {
     return (
         <div>
             <ProfileInfo/>
-            <MyPosts posts={posts}/>
+            <MyPosts posts={props.posts}/>
         </div>
     );
 };

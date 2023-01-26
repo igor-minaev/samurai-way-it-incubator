@@ -6,10 +6,11 @@ type MyPostsPropsType = {
     posts: Array<PostType>
 }
 
-export const MyPosts:FC<MyPostsPropsType> = (props) => {
+export const MyPosts: FC<MyPostsPropsType> = (props) => {
 
 
-    const postsElement = props.posts.map(p => <Post message={p.message} likeCounts={p.likeCounts}/>)
+    const postsElement = props.posts.map(p => <Post key={p.id} id={p.id} message={p.message}
+                                                    likeCounts={p.likeCounts}/>)
 
     return (
         <div className={s.postsBlock}>

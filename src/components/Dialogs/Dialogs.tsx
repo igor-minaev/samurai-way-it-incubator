@@ -21,8 +21,9 @@ export const Dialogs: FC<DialogsPropsType> = (props) => {
     const newMessageElement = React.createRef <HTMLTextAreaElement>()
 
     const addMessage = () => {
-        const message = newMessageElement.current?.value
-        console.log(message)
+        if (newMessageElement.current) {
+            console.log(newMessageElement.current.value)
+        }
     }
 
     return (

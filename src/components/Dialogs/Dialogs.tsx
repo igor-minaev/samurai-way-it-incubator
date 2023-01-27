@@ -18,11 +18,11 @@ export const Dialogs: FC<DialogsPropsType> = (props) => {
     const messagesElements = props.state.messages.map(m => <Message id={m.id} key={m.id}
                                                                     message={m.message}/>)
 
-    const newMessageElement = React.createRef <HTMLTextAreaElement>()
+    const dialogMessageRef = React.createRef <HTMLTextAreaElement>()
 
     const addMessage = () => {
-        if (newMessageElement.current) {
-            console.log(newMessageElement.current.value)
+        if (dialogMessageRef.current) {
+            console.log(dialogMessageRef.current.value)
         }
     }
 
@@ -34,7 +34,7 @@ export const Dialogs: FC<DialogsPropsType> = (props) => {
             <div className={s.messages}>
                 {messagesElements}
                 <div>
-                    <textarea ref={newMessageElement}></textarea>
+                    <textarea ref={dialogMessageRef}></textarea>
                 </div>
                 <div>
                     <button onClick={addMessage}>Add message</button>

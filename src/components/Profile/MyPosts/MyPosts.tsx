@@ -14,11 +14,12 @@ export const MyPosts: FC<MyPostsPropsType> = (props) => {
     const postsElement = props.posts.map(p => <Post key={p.id} id={p.id} message={p.message}
                                                     likeCounts={p.likeCounts}/>)
 
-    const newPostElement = React.createRef<HTMLTextAreaElement>()
+    const postMessageRef = React.createRef<HTMLTextAreaElement>()
 
     const addPost = () => {
-        if (newPostElement.current) {
-            props.addPost(newPostElement.current.value)
+        if (postMessageRef.current) {
+            props.addPost(postMessageRef.current.value)
+            postMessageRef.current.value = ''
         }
     }
 
@@ -28,7 +29,7 @@ export const MyPosts: FC<MyPostsPropsType> = (props) => {
             <h3>My posts</h3>
             <div>
                 <div>
-                    <textarea ref={newPostElement}></textarea>
+                    <textarea ref={postMessageRef}></textarea>
                 </div>
                 <div>
                     <button onClick={addPost}>Add post

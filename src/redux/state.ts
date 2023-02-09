@@ -1,4 +1,3 @@
-
 export type PostType = {
     id: number
     message: string
@@ -31,13 +30,32 @@ export type RootStateType = {
 export type StoreType = {
     _state: RootStateType
     _callSubscriber: () => void
-    addPost: (postText: string) => void
-    updateNewPostText: (newText: string) => void
-    addMessage: (messageText: string) => void
-    updateNewMessageText: (newText: string) => void
     subscribe: (observer: () => void) => void
     getState: () => RootStateType
+    dispatch: (action: ActionsTypes) => void
 }
+type AddPostActionType = {
+    type: 'ADD-POST'
+    postText: string
+}
+type UpdateNewPostTextActionType = {
+    type: 'UPDATE-NEW-POST-TEXT'
+    newText: string
+}
+type AddMessageActionType = {
+    type: 'ADD-MESSAGE'
+    messageText: string
+}
+type UpdateNewMessageTextActionType = {
+    type: 'UPDATE-NEW-MESSAGE-TEXT'
+    newText: string
+}
+
+export type ActionsTypes =
+    AddPostActionType
+    | UpdateNewPostTextActionType
+    | AddMessageActionType
+    | UpdateNewMessageTextActionType
 
 export const store: StoreType = {
     _state: {
@@ -75,49 +93,40 @@ export const store: StoreType = {
     subscribe(observer: () => void) {
         this._callSubscriber = observer
     },
-    addPost(postText: string) {
-        const newPost: PostType = {
-            id: new Date().getTime(),
-            message: postText,
-            likeCounts: 0
-        }
-        this._state.profilePage.posts.push(newPost)
-        this._state.profilePage.newPostText = ''
-        this._callSubscriber()
-    },
-    updateNewPostText(newText: string) {
+    dispatch(action) {
+        switch (action.type) {
+            case 'ADD-POST':
+                const newPost: PostType = {
+                    id: new Date().getTime(),
+                    message: action.postText,
+                    likeCounts: 0
+                }
+                this._state.profilePage.posts.push(newPost)
+                this._state.profilePage.newPostText = ''
+                this._callSubscriber()
+                break
+            case 'UPDATE-NEW-POST-TEXT':
+                this._state.profilePage.newPostText = action.newText
+                this._callSubscriber()
+                break
+            case 'ADD-MESSAGE':
+                const newMessage: MessageType = {
+                    id: new Date().getTime(),
+                    message: action.messageText,
+                }
+                this._state.dialogsPage.messages.push(newMessage)
+                this._state.dialogsPage.newMessageText = ''
+                this._callSubscriber()
+                break
+            case 'UPDATE-NEW-MESSAGE-TEXT':
+                this._state.dialogsPage.newMessageText = action.newText
+                this._callSubscriber()
+                break
+            default:
+                throw new Error("I don't understand this action type")
 
-        this._state.profilePage.newPostText = newText
-        this._callSubscriber()
-    },
-    addMessage(messageText: string) {
-        const newMessage: MessageType = {
-            id: new Date().getTime(),
-            message: messageText,
         }
-        this._state.dialogsPage.messages.push(newMessage)
-        this._state.dialogsPage.newMessageText = ''
-        this._callSubscriber()
-    },
-    updateNewMessageText(newText: string) {
 
-        this._state.dialogsPage.newMessageText = newText
-        this._callSubscriber()
-    },
-    dispatch(action){
-        if(action.type === 'ADD-POST'){
-            const newPost: PostType = {
-                id: new Date().getTime(),
-                message: postText,
-                likeCounts: 0
-            }
-            this._state.profilePage.posts.push(newPost)
-            this._state.profilePage.newPostText = ''
-            this._callSubscriber()
-        } else if(action.type === 'UPDATE-NEW-POST-TEXT'){
-            this._state.profilePage.newPostText = newText
-            this._callSubscriber()
-        }
     }
 
 }

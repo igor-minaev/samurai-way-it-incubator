@@ -1,3 +1,7 @@
+import profileReducer, {AddPostActionType, UpdateNewPostTextActionType} from "./profile-reducer";
+import dialogsReducer, {AddMessageActionType, UpdateNewMessageTextActionType} from "./dialogs-reducer";
+import sidebarReducer from "./sidebar-reducer";
+
 export type PostType = {
     id: number
     message: string
@@ -34,11 +38,6 @@ export type StoreType = {
     getState: () => RootStateType
     dispatch: (action: ActionsTypes) => void
 }
-
-type AddPostActionType = ReturnType<typeof addPostAC>
-type UpdateNewPostTextActionType = ReturnType<typeof updateNewPostTextAC>
-type AddMessageActionType = ReturnType<typeof addMessageAC>
-type UpdateNewMessageTextActionType = ReturnType<typeof updateNewMessageTextAC>
 
 export type ActionsTypes =
     AddPostActionType
@@ -83,46 +82,16 @@ export const store: StoreType = {
         this._callSubscriber = observer
     },
     dispatch(action) {
-        switch (action.type) {
-            case 'ADD-POST':
-                const newPost: PostType = {
-                    id: new Date().getTime(),
-                    message: action.postText,
-                    likeCounts: 0
-                }
-                this._state.profilePage.posts.push(newPost)
-                this._state.profilePage.newPostText = ''
-                this._callSubscriber()
-                break
-            case 'UPDATE-NEW-POST-TEXT':
-                this._state.profilePage.newPostText = action.newText
-                this._callSubscriber()
-                break
-            case 'ADD-MESSAGE':
-                const newMessage: MessageType = {
-                    id: new Date().getTime(),
-                    message: action.messageText,
-                }
-                this._state.dialogsPage.messages.push(newMessage)
-                this._state.dialogsPage.newMessageText = ''
-                this._callSubscriber()
-                break
-            case 'UPDATE-NEW-MESSAGE-TEXT':
-                this._state.dialogsPage.newMessageText = action.newText
-                this._callSubscriber()
-                break
-            default:
-                throw new Error("I don't understand this action type")
 
-        }
-
+        this._state.profilePage = profileReducer(this._state.profilePage, action)
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
+        this._state.sidebar = sidebarReducer(this._state.sidebar, action)
+        this._callSubscriber()
     }
 }
 
-export const addPostAC = (newPostText: string) => ({type: 'ADD-POST', postText: newPostText} as const)
-export const updateNewPostTextAC = (newText: string) => ({type: 'UPDATE-NEW-POST-TEXT', newText: newText} as const)
-export const addMessageAC = (newMessageText: string) => ({type: 'ADD-MESSAGE', messageText: newMessageText} as const)
-export const updateNewMessageTextAC = (newText: string) => ({type: 'UPDATE-NEW-MESSAGE-TEXT', newText: newText} as const)
+
+
 
 
 

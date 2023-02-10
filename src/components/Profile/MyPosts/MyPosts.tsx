@@ -31,7 +31,7 @@ export const MyPosts: FC<MyPostsPropsType> = (props) => {
                 <h3>My posts</h3>
                 <div>
                     <div>
-                        <textarea value={props.newPostText} onChange={onPostChange}/>
+                        <textarea placeholder='Enter your message' value={props.newPostText} onChange={onPostChange}/>
                     </div>
                     <div>
                         <button onClick={addPost}>Add post

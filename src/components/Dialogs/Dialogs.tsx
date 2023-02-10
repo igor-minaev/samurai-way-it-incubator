@@ -36,7 +36,7 @@ export const Dialogs: FC<DialogsPropsType> = (props) => {
             <div className={s.messages}>
                 {messagesElements}
                 <div>
-                    <textarea value={props.dialogsPage.newMessageText}
+                    <textarea placeholder='Enter your message' value={props.dialogsPage.newMessageText}
                               onChange={onMessageChange}/>
                 </div>
                 <div>

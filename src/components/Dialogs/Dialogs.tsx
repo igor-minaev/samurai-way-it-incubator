@@ -2,12 +2,12 @@ import React, {ChangeEvent, FC} from 'react';
 import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
-import {addMessageAC, DialogsPageType, updateNewMessageTextAC} from "../../redux/dialogs-reducer";
-import {ActionsTypes} from "../../redux/redux-store";
+import {DialogsPageType} from "../../redux/dialogs-reducer";
 
 type DialogsPropsType = {
     dialogsPage: DialogsPageType
-    dispatch: (action: ActionsTypes) => void
+    updateNewMessageText: (newText: string) => void
+    addMessage: (newMessageText: string) => void
 }
 
 export const Dialogs: FC<DialogsPropsType> = (props) => {
@@ -21,12 +21,12 @@ export const Dialogs: FC<DialogsPropsType> = (props) => {
                                                                           message={m.message}/>)
 
 
-    const addMessage = () => {
-        props.dispatch(addMessageAC(props.dialogsPage.newMessageText))
+    const onAddMessage = () => {
+        props.addMessage(props.dialogsPage.newMessageText)
     }
 
     const onMessageChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.dispatch(updateNewMessageTextAC(e.currentTarget.value))
+        props.updateNewMessageText(e.currentTarget.value)
     }
 
     return (
@@ -41,7 +41,7 @@ export const Dialogs: FC<DialogsPropsType> = (props) => {
                               onChange={onMessageChange}/>
                 </div>
                 <div>
-                    <button onClick={addMessage}>Add message</button>
+                    <button onClick={onAddMessage}>Add message</button>
                 </div>
             </div>
         </div>

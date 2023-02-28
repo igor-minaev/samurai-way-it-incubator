@@ -8,11 +8,11 @@ const RootReducer = combineReducers({
     dialogsPage: dialogsReducer,
     sidebar: sidebarReducer
 })
+export const store = createStore(RootReducer)
 
 type RootReducerType = typeof RootReducer
 export type AppStateType = ReturnType<RootReducerType>
-
-export const store = createStore(RootReducer)
+export type StoreType = typeof store
 
 export type ActionsTypes =
     AddPostActionType

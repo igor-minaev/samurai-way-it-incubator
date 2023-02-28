@@ -1,13 +1,14 @@
 import React, {ChangeEvent, FC} from 'react';
 import s from './MyPosts.module.css'
 import {Post} from "./Post/Post";
-import {addPostAC, PostType, updateNewPostTextAC} from "../../../redux/profile-reducer";
-import {ActionsTypes} from "../../../redux/redux-store";
+import {PostType} from "../../../redux/profile-reducer";
+
 
 type MyPostsPropsType = {
     posts: Array<PostType>
     newPostText: string
-    dispatch: (action: ActionsTypes) => void
+    updateNewPostText: (newText: string) => void
+    addPost: (newPostText: string) => void
 }
 
 
@@ -18,11 +19,11 @@ export const MyPosts: FC<MyPostsPropsType> = (props) => {
                                                         likeCounts={p.likeCounts}/>)
 
 
-        const addPost = () => {
-            props.dispatch(addPostAC(props.newPostText))
+        const onAddPost = () => {
+            props.addPost(props.newPostText)
         }
         const onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-            props.dispatch(updateNewPostTextAC(e.currentTarget.value))
+            props.updateNewPostText(e.currentTarget.value)
         }
 
 
@@ -34,7 +35,7 @@ export const MyPosts: FC<MyPostsPropsType> = (props) => {
                         <textarea placeholder='Enter your message' value={props.newPostText} onChange={onPostChange}/>
                     </div>
                     <div>
-                        <button onClick={addPost}>Add post
+                        <button onClick={onAddPost}>Add post
                         </button>
                     </div>
                 </div>
